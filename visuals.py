@@ -28,7 +28,7 @@ def plot_team_comparison(team1, team2, stats1, stats2):
     ))
 
     fig.update_layout(
-        title=f"{team1} vs {team2} - Yardage Comparison",
+        title=f"{team1} vs {team2} - Season Yardage Comparison",
         xaxis_title="Category",
         yaxis_title="Yards",
         barmode='group'
