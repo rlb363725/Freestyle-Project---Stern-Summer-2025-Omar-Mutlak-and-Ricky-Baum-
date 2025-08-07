@@ -37,5 +37,27 @@ def plot_team_comparison(team1, team2, stats1, stats2):
     fig.show()
 
 
+def plot_player_comparison(player_stats, stat_type="passingYards", top_n=5):
+    """
+    Plot comparison of top N players by a specific stat.
+    `player_stats` should be the result of get_team_players(team, year)
+    """
+    filtered_players = [p for p in player_stats if p["statType"] == stat_type]
+    sorted_players = sorted(filtered_players, key=lambda p: float(p["stat"]), reverse=True)[:top_n]
+
+    names = [p["player"] for p in sorted_players]
+    stats = [float(p["stat"]) for p in sorted_players]
+
+    fig = go.Figure([go.Bar(x=names, y=stats)])
+
+    fig.update_layout(
+        title=f"Top {top_n} Players by {stat_type}",
+        xaxis_title="Player",
+        yaxis_title=stat_type,
+        template="plotly_white"
+    )
+
+    fig.show()
+
 
 

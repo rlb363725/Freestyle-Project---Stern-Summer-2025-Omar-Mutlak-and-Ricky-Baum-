@@ -4,10 +4,24 @@ import requests
 
 load_dotenv()  # Load environment variables from .env
 
+API_KEY = os.getenv("CFB_API_KEY")
+
+def _get_api_key():
+    """Gets the API key, prompting the user if not found."""
+    global API_KEY
+    if not API_KEY:
+        API_KEY = input("API key not found. Please enter your College Football Data API key: ")
+        save_key = input("Save this key to a new .env file for future use? (y/n): ").lower()
+        if save_key == 'y':
+            with open(".env", "w") as f:
+                f.write(f"CFB_API_KEY={API_KEY}")
+            print("API key saved to .env file.")
+    return API_KEY
+
 def get_team_stats(team, year):
-    api_key = os.getenv("CFB_API_KEY")
+    api_key = _get_api_key()
     if not api_key:
-        raise Exception("API key not found. Make sure .env file is configured correctly.")
+        raise Exception("API key not provided. Cannot fetch data.")
 
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -23,9 +37,9 @@ def get_team_stats(team, year):
 
 
 def get_team_roster(team, year):
-    api_key = os.getenv("CFB_API_KEY")
+    api_key = _get_api_key()
     if not api_key:
-        raise Exception("API key not found. Make sure .env file is configured correctly.")
+        raise Exception("API key not provided. Cannot fetch data.")
 
     headers = {
         "Authorization": f"Bearer {api_key}",
