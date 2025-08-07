@@ -11,8 +11,8 @@ from visuals import plot_team_roster
 def test_plot_team_roster_handles_data(monkeypatch):
     monkeypatch.setattr("visuals.go.Figure.show", lambda self: None)
     roster = [
-        {"first_name": "John", "last_name": "Doe", "position": "QB", "jersey": 12},
-        {"first_name": "Jane", "last_name": "Smith", "position": "RB", "jersey": 5},
+        {"lastName": "Doe", "position": "QB", "jersey": 12},
+        {"lastName": "Smith", "position": "RB", "jersey": 5},
     ]
 
     plot_team_roster("Test Team", roster)
@@ -28,7 +28,7 @@ def test_simulate_matchup_with_rosters(monkeypatch):
 
     def mock_get_team_roster(team, year):
         return [
-            {"first_name": "Alex", "last_name": "Player", "position": "QB", "jersey": 1}
+            {"lastName": "Player", "position": "QB", "jersey": 1}
         ]
 
     plot_calls = []
