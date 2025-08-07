@@ -1,22 +1,46 @@
 import pytest
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 from matchup import simulate_matchup
+from visuals import plot_team_roster
 
-def test_simulate_matchup_runs():
-    result = simulate_matchup("Georgia", "Michigan", 2023)
-    assert "Winner" in result
 
-def mock_get_team_stats(team, year):
-    # Fake stats for controlled testing
-    if team == "Ohio State":
-        return [{"category": "offense", "stat": 500}]
-    elif team == "Michigan":
-        return [{"category": "offense", "stat": 450}]
-    return []
+def test_plot_team_roster_handles_data(monkeypatch):
+    monkeypatch.setattr("visuals.go.Figure.show", lambda self: None)
+    roster = [
+        {"first_name": "John", "last_name": "Doe", "position": "QB", "jersey": 12},
+        {"first_name": "Jane", "last_name": "Smith", "position": "RB", "jersey": 5},
+    ]
 
-def test_simulate_matchup_with_mock(monkeypatch):
-    # Monkeypatch the real data_fetcher.get_team_stats
+    plot_team_roster("Test Team", roster)
+
+
+def test_simulate_matchup_with_rosters(monkeypatch):
+    def mock_get_team_stats(team, year):
+        return [
+            {"statName": "totalYards", "statValue": 500},
+            {"statName": "totalYardsOpponent", "statValue": 300},
+            {"statName": "games", "statValue": 10},
+        ]
+
+    def mock_get_team_roster(team, year):
+        return [
+            {"first_name": "Alex", "last_name": "Player", "position": "QB", "jersey": 1}
+        ]
+
+    plot_calls = []
+
+    def mock_plot_team_roster(team, roster):
+        plot_calls.append((team, roster))
+
     monkeypatch.setattr("matchup.get_team_stats", mock_get_team_stats)
+    monkeypatch.setattr("matchup.get_team_roster", mock_get_team_roster)
+    monkeypatch.setattr("matchup.plot_team_comparison", lambda *args, **kwargs: None)
+    monkeypatch.setattr("matchup.plot_team_roster", mock_plot_team_roster)
 
-    result = simulate_matchup("Ohio State", "Michigan", "2023")
-    assert "
-
+    result = simulate_matchup("Team A", "Team B", 2023)
+    assert "Winner" in result
+    assert len(plot_calls) == 2

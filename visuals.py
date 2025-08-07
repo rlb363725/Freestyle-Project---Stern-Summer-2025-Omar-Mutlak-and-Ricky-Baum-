@@ -63,3 +63,21 @@ def plot_player_comparison(player_stats, stat_type="passingYards", top_n=5):
 
 
 
+
+def plot_team_roster(team, roster):
+    """Display a team's roster as an interactive table."""
+    if not roster:
+        print("No roster data available.")
+        return
+
+    names = [f"{p.get('first_name', '')} {p.get('last_name', '')}" for p in roster]
+    positions = [p.get("position", "") for p in roster]
+    jerseys = [p.get("jersey", "") for p in roster]
+
+    table = go.Table(
+        header=dict(values=["Player", "Position", "Jersey"], fill_color="paleturquoise", align="left"),
+        cells=dict(values=[names, positions, jerseys], fill_color="lavender", align="left"),
+    )
+    fig = go.Figure(data=[table])
+    fig.update_layout(title=f"{team} Roster")
+    fig.show()

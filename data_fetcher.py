@@ -42,6 +42,27 @@ def get_team_stats(team, year):
     return response.json()
 
 
+def get_team_roster(team, year):
+    """Fetches the roster for a given team and year."""
+    api_key = _get_api_key()
+    if not api_key:
+        raise Exception("API key not provided. Cannot fetch data.")
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "accept": "application/json",
+    }
+    url = f"https://api.collegefootballdata.com/roster?year={year}&team={team}"
+    response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        raise Exception(
+            f"Failed to fetch roster for {team}: {response.status_code} — {response.text}"
+        )
+
+    return response.json()
+
+
 
 
 
