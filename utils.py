@@ -40,6 +40,31 @@ def predict_score(stats1, stats2):
         return 0, 0  # Always return a tuple to avoid unpacking error
 
 
+def predict_yardage(stats1, stats2):
+    """Predict offensive yardage for each team based on averages.
+
+    Returns a tuple of (yards1, yards2). Will NEVER return None.
+    """
+    try:
+        games1 = extract_stat(stats1, "games") or 1
+        games2 = extract_stat(stats2, "games") or 1
+
+        team1_off_yards_pg = extract_stat(stats1, "totalYards") / games1
+        team2_off_yards_pg = extract_stat(stats2, "totalYards") / games2
+
+        team1_def_yards_pg = extract_stat(stats1, "totalYardsOpponent") / games1
+        team2_def_yards_pg = extract_stat(stats2, "totalYardsOpponent") / games2
+
+        team1_yards = int((team1_off_yards_pg + team2_def_yards_pg) / 2)
+        team2_yards = int((team2_off_yards_pg + team1_def_yards_pg) / 2)
+
+        return team1_yards, team2_yards
+
+    except Exception as e:
+        print("ERROR in predict_yardage:", e)
+        return 0, 0  # Always return a tuple to avoid unpacking error
+
+
 def calculate_win_probability(score1, score2):
     """Calculate win probabilities based on predicted scores.
 
