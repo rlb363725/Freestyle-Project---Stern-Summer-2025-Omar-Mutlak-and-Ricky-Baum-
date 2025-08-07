@@ -1,5 +1,5 @@
 from data_fetcher import get_team_stats, get_team_roster
-from utils import predict_score, calculate_win_probability
+from utils import predict_score, calculate_win_probability, predict_yardage
 from visuals import plot_team_comparison, plot_team_roster, plot_game_prediction
 
 def simulate_matchup(team1, team2, year):
@@ -9,6 +9,7 @@ def simulate_matchup(team1, team2, year):
     roster2 = get_team_roster(team2, year)
 
     score1, score2 = predict_score(stats1, stats2)
+    yards1, yards2 = predict_yardage(stats1, stats2)
     prob1, prob2 = calculate_win_probability(score1, score2)
 
     winner = "Tie"
@@ -24,7 +25,8 @@ def simulate_matchup(team1, team2, year):
 
     return (
         f"\n{team1} ({prob1}%) vs. {team2} ({prob2}%)\n"
-        f"Predicted Score: {team1} {score1} - {score2} {team2} → Winner: {winner}"
+        f"Predicted Score: {team1} {score1} - {score2} {team2} → Winner: {winner}\n"
+        f"Predicted Yardage: {team1} {yards1} - {yards2} {team2}"
     )
 
 
