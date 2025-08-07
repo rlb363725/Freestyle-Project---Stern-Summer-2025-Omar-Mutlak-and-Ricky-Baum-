@@ -38,6 +38,25 @@ def predict_score(stats1, stats2):
     except Exception as e:
         print("ERROR in predict_score:", e)
         return 0, 0  # Always return a tuple to avoid unpacking error
+
+
+def display_roster(roster):
+    """
+    Displays a team's roster in a formatted table.
+    """
+    if not roster:
+        print("Roster data is not available.")
+        return
+
+    print(f"{'Name':<25} {'Position':<10} {'Jersey':<5}")
+    print("-" * 40)
+    for player in roster:
+        name = f"{player.get('first_name', '')} {player.get('last_name', '')}"
+        position = player.get('position', 'N/A')
+        jersey = player.get('jersey', 'N/A')
+        print(f"{name:<25} {position:<10} {jersey:<5}")
+
+
 def calculate_win_probability(score1, score2):
     """
     Calculates win probabilities based on predicted scores.
