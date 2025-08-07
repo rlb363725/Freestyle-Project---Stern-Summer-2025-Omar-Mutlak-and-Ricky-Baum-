@@ -40,23 +40,6 @@ def predict_score(stats1, stats2):
         return 0, 0  # Always return a tuple to avoid unpacking error
 
 
-def display_roster(roster):
-    """
-    Displays a team's roster in a formatted table.
-    """
-    if not roster:
-        print("Roster data is not available.")
-        return
-
-    print(f"{'Name':<25} {'Position':<10} {'Jersey':<5}")
-    print("-" * 40)
-    for player in roster:
-        name = f"{player.get('first_name', '')} {player.get('last_name', '')}"
-        position = player.get('position', 'N/A')
-        jersey = player.get('jersey', 'N/A')
-        print(f"{name:<25} {position:<10} {jersey:<5}")
-
-
 def calculate_win_probability(score1, score2):
     """
     Calculates win probabilities based on predicted scores.
@@ -69,6 +52,38 @@ def calculate_win_probability(score1, score2):
     prob1 = (score1 / total) * 100
     prob2 = (score2 / total) * 100
     return round(prob1, 1), round(prob2, 1)
+
+
+def generate_roster_html(team1, roster1, team2, roster2):
+    """Generates an HTML file to display rosters and opens it in a browser."""
+    html_content = f"""
+    <html>
+    <head>
+        <title>Team Rosters</title>
+        <style>
+            body {{ font-family: Arial, sans-serif; }}
+            h1 {{ color: #333; }}
+            table {{ width: 50%; float: left; border-collapse: collapse; margin-right: 20px; }}
+            th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
+            th {{ background-color: #f2f2f2; }}
+        </style>
+    </head>
+    <body>
+        <h1>{team1} Roster</h1>
+        <table>
+            <tr><th>Name</th><th>Position</th><th>Jersey</th></tr>
+            {''.join([f"<tr><td>{p.get('first_name', '')} {p.get('last_name', '')}</td><td>{p.get('position', 'N/A')}</td><td>{p.get('jersey', 'N/A')}</td></tr>" for p in roster1])}
+        </table>
+        <h1>{team2} Roster</h1>
+        <table>
+            <tr><th>Name</th><th>Position</th><th>Jersey</th></tr>
+            {''.join([f"<tr><td>{p.get('first_name', '')} {p.get('last_name', '')}</td><td>{p.get('position', 'N/A')}</td><td>{p.get('jersey', 'N/A')}</td></tr>" for p in roster2])}
+        </table>
+    </body>
+    </html>
+    """
+    with open("rosters.html", "w") as f:
+        f.write(html_content)
 
 
 

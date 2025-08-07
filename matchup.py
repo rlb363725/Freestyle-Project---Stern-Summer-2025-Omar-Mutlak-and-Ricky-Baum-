@@ -1,5 +1,7 @@
+import webbrowser
+import os
 from data_fetcher import get_team_stats, get_team_roster
-from utils import predict_score, extract_stat, display_roster
+from utils import predict_score, calculate_win_probability, generate_roster_html
 from visuals import plot_team_comparison
 
 def simulate_matchup(team1, team2, year):
@@ -7,14 +9,12 @@ def simulate_matchup(team1, team2, year):
     stats2 = get_team_stats(team2, year)
 
     roster1 = get_team_roster(team1, year)
-    print(f"\n--- {team1} Roster ---")
-    display_roster(roster1)
-
     roster2 = get_team_roster(team2, year)
-    print(f"\n--- {team2} Roster ---")
-    display_roster(roster2)
+    generate_roster_html(team1, roster1, team2, roster2)
+    webbrowser.open('file://' + os.path.realpath('rosters.html'))
 
     score1, score2 = predict_score(stats1, stats2)
+    prob1, prob2 = calculate_win_probability(score1, score2)
 
     winner = "Tie"
     if score1 > score2:
@@ -24,7 +24,8 @@ def simulate_matchup(team1, team2, year):
 
     plot_team_comparison(team1, team2, stats1, stats2)
 
-    return f"\n{team1} {score1} - {score2} {team2} → Winner: {winner}"
+    return (f"\n{team1} ({prob1}%) vs. {team2} ({prob2}%)\n"
+            f"Predicted Score: {team1} {score1} - {score2} {team2} → Winner: {winner}")
 
 
 
