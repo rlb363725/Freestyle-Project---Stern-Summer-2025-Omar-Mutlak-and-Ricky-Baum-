@@ -34,13 +34,23 @@ def plot_win_probability(team1, team2, stats1, stats2):
     fig.show()
 
 
-def plot_top_players(title, player_stats, stat_key, top_n=5):
-    sorted_players = sorted(player_stats, key=lambda x: float(x.get("stat", 0)), reverse=True)[:top_n]
+def plot_top_players(title, player_stats, stat_type, top_n=5):
+    # Filter just the statType we care about (e.g. "passingYards")
+    filtered = [p for p in player_stats if isinstance(p, dict) and p.get("statType") == stat_type]
+
+    # Sort by numerical stat value
+    sorted_players = sorted(
+        filtered,
+        key=lambda x: float(x.get("stat", 0)),
+        reverse=True
+    )[:top_n]
+
     names = [f'{p["player"]["firstName"]} {p["player"]["lastName"]}' for p in sorted_players]
     values = [float(p["stat"]) for p in sorted_players]
 
     fig = go.Figure(data=[
         go.Bar(x=names, y=values)
     ])
-    fig.update_layout(title=title, xaxis_title="Player", yaxis_title=stat_key)
+    fig.update_layout(title=title, xaxis_title="Player", yaxis_title=stat_type)
     fig.show()
+
