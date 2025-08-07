@@ -1,4 +1,6 @@
 import plotly.graph_objects as go
+from utils import extract_stat
+
 
 
 def plot_team_comparison(team1, team2, stats1, stats2):
@@ -20,7 +22,7 @@ def plot_team_comparison(team1, team2, stats1, stats2):
 
 def plot_win_probability(team1, team2, stats1, stats2):
     def get_yards(stats):
-        return float(next((s["statValue"] for s in stats if s["statName"] == "totalYards"), 0))
+    return extract_stat(stats, "totalYards")
 
     y1 = get_yards(stats1)
     y2 = get_yards(stats2)
