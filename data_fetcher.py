@@ -10,7 +10,7 @@ def _get_api_key():
     """Gets the API key, prompting the user if not found."""
     global API_KEY
     if not API_KEY:
-        API_KEY = input("API key not found. Please enter your College Football Data API key: ")
+        API_KEY = input("API key not found. Please enter your College Football Data API key (Obtain for free at Collegefootballdata.com): ")
         save_key = input("Save this key to a new .env file for future use? (y/n): ").lower()
         if save_key == 'y':
             with open(".env", "w") as f:
