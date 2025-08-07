@@ -3,24 +3,28 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 @app.route('/')
-def team_rosters():
-    florida_roster = [
-        {"name": "John Doe", "position": "QB", "jersey": 15},
-        {"name": "Mike Smith", "position": "RB", "jersey": 27}
-        # ... your dynamically fetched data
+def show_rosters():
+    # Simulated API data: list of dictionaries with full player info
+    ohio_state_roster = [
+        {"name": "Marvin Harrison Jr.", "position": "WR", "jersey": 18},
+        {"name": "Tommy Eichenberg", "position": "LB", "jersey": 35},
+        {"name": "Kyle McCord", "position": "QB", "jersey": 6},
+        # ...more players
     ]
 
-    alabama_roster = [
-        {"name": "Jane Taylor", "position": "WR", "jersey": 5},
-        {"name": "Tom White", "position": "DL", "jersey": 96}
-        # ... your dynamically fetched data
+    rutgers_roster = [
+        {"name": "Samuel Brown V", "position": "RB", "jersey": 27},
+        {"name": "Gavin Wimsatt", "position": "QB", "jersey": 2},
+        {"name": "Tyreem Powell", "position": "LB", "jersey": 22},
+        # ...more players
     ]
 
     return render_template("rosters.html",
-                           team1_name="Florida",
-                           team2_name="Alabama",
-                           team1_roster=florida_roster,
-                           team2_roster=alabama_roster)
+                           team1_name="Ohio State",
+                           team2_name="Rutgers",
+                           team1_roster=ohio_state_roster,
+                           team2_roster=rutgers_roster)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
+
