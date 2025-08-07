@@ -40,13 +40,26 @@ def plot_team_comparison(team1, team2, stats1, stats2):
 def plot_player_comparison(player_stats, stat_type="passingYards", top_n=5):
     """
     Plot comparison of top N players by a specific stat.
-    `player_stats` should be the result of get_team_players(team, year)
+
+    Args:
+        player_stats (list of dict): Each dict should have the following keys:
+    sorted_players = sorted(
+        filtered_players,
+        key=lambda p: float(p.get("stat", 0)) if str(p.get("stat", "0")).replace('.', '', 1).isdigit() else 0,
+        reverse=True
+    )[:top_n]
+            - "statType" (str): The type of stat (e.g., "passingYards").
+            - "stat" (str or float): The value of the stat.
+        stat_type (str): The stat type to compare (default "passingYards").
+        top_n (int): Number of top players to display (default 5).
+
+    `player_stats` should be the result of get_team_players(team, year).
     """
-    filtered_players = [p for p in player_stats if p["statType"] == stat_type]
+    filtered_players = [p for p in player_stats if p.get("statType") == stat_type]
     sorted_players = sorted(filtered_players, key=lambda p: float(p["stat"]), reverse=True)[:top_n]
 
-    names = [p["player"] for p in sorted_players]
-    stats = [float(p["stat"]) for p in sorted_players]
+    names = [p.get("player", "Unknown") for p in sorted_players]
+    stats = [float(p.get("stat", 0)) for p in sorted_players]
 
     fig = go.Figure([go.Bar(x=names, y=stats)])
 
