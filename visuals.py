@@ -5,14 +5,11 @@ def plot_team_comparison(team1, team2, stats1, stats2):
     categories = ["totalYards", "netPassingYards", "rushingYards", "turnovers"]
     labels = ["Total Yards", "Passing Yards", "Rushing Yards", "Turnovers"]
 
-    def get_stat(stats, name):
-        for s in stats:
-            if s["statName"] == name:
-                return float(s.get("statValue", 0.0))
-        return 0.0
+    from utils import extract_stat
 
-    y1 = [get_stat(stats1, name) for name in categories]
-    y2 = [get_stat(stats2, name) for name in categories]
+    y1 = [extract_stat(stats1, name) for name in categories]
+    y2 = [extract_stat(stats2, name) for name in categories]
+
 
     fig = go.Figure()
     fig.add_trace(go.Bar(x=labels, y=y1, name=team1))
