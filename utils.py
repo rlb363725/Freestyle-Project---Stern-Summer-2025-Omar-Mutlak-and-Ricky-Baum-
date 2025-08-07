@@ -38,6 +38,18 @@ def predict_score(stats1, stats2):
     except Exception as e:
         print("ERROR in predict_score:", e)
         return 0, 0  # Always return a tuple to avoid unpacking error
+def calculate_win_probability(score1, score2):
+    """
+    Calculates win probabilities based on predicted scores.
+    Returns a tuple of percentages (team1, team2).
+    """
+    total = score1 + score2
+    if total == 0:
+        return 50.0, 50.0  # default if tied at 0
+
+    prob1 = (score1 / total) * 100
+    prob2 = (score2 / total) * 100
+    return round(prob1, 1), round(prob2, 1)
 
 
 
