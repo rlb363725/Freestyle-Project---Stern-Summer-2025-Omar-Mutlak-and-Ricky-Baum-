@@ -6,6 +6,7 @@ This tool compares two FBS teams' season stats using data from the [CollegeFootb
 
 * Retrieves live team stats from the CollegeFootballData API
 * Predicts scores based on total offensive and defensive yards
+* Forecasts each team's offensive yards and defensive yards allowed
 * Visualizes side-by-side stat comparisons using Plotly
 * Displays predicted scores with win probabilities in a Plotly bar chart
 * Command-line interface for interactive use

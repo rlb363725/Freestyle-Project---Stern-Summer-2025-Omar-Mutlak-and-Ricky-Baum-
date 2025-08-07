@@ -56,6 +56,25 @@ def plot_game_prediction(team1, team2, score1, score2, prob1, prob2):
     )
     fig.show()
 
+
+def plot_predicted_yardage(team1, team2, off1, def1, off2, def2):
+    """Visualize predicted offensive yards and defensive yards allowed."""
+    categories = [team1, team2]
+    fig = go.Figure()
+    fig.add_trace(
+        go.Bar(x=categories, y=[off1, off2], name="Predicted Offensive Yards")
+    )
+    fig.add_trace(
+        go.Bar(x=categories, y=[def1, def2], name="Predicted Defensive Yards Allowed")
+    )
+    fig.update_layout(
+        title=f"{team1} vs {team2} - Predicted Yardage",
+        xaxis_title="Team",
+        yaxis_title="Yards",
+        barmode="group",
+    )
+    fig.show()
+
 def plot_player_comparison(player_stats, stat_type="passingYards", top_n=5):
     filtered_players = [p for p in player_stats if p.get("statType") == stat_type]
     print(f"Found {len(filtered_players)} players with stat type: {stat_type}")
