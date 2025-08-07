@@ -22,6 +22,24 @@ def get_team_stats(team, year):
     return response.json()
 
 
+def get_team_roster(team, year):
+    api_key = os.getenv("CFB_API_KEY")
+    if not api_key:
+        raise Exception("API key not found. Make sure .env file is configured correctly.")
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "accept": "application/json"
+    }
+    url = f"https://api.collegefootballdata.com/roster?team={team}&year={year}"
+    response = requests.get(url, headers=headers)
+
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch roster for {team}: {response.status_code} — {response.text}")
+
+    return response.json()
+
+
 
 
 
