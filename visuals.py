@@ -1,4 +1,4 @@
-mport plotly.graph_objects as go
+import plotly.graph_objects as go
 from utils import extract_stat
 
 def plot_team_comparison(team1, team2, stats1, stats2):
