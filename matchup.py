@@ -1,6 +1,6 @@
 from data_fetcher import get_team_stats, get_team_roster
 from utils import predict_score, calculate_win_probability
-from visuals import plot_team_comparison, plot_team_roster
+from visuals import plot_team_comparison, plot_team_roster, plot_game_prediction
 
 def simulate_matchup(team1, team2, year):
     stats1 = get_team_stats(team1, year)
@@ -17,6 +17,7 @@ def simulate_matchup(team1, team2, year):
     elif score2 > score1:
         winner = team2
 
+    plot_game_prediction(team1, team2, score1, score2, prob1, prob2)
     plot_team_comparison(team1, team2, stats1, stats2)
     plot_team_roster(team1, roster1)
     plot_team_roster(team2, roster2)

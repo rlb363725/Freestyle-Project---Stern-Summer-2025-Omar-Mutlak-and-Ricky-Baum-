@@ -7,6 +7,7 @@ This tool compares two FBS teams' season stats using data from the [CollegeFootb
 * Retrieves live team stats from the CollegeFootballData API
 * Predicts scores based on total offensive and defensive yards
 * Visualizes side-by-side stat comparisons using Plotly
+* Displays predicted scores with win probabilities in a Plotly bar chart
 * Command-line interface for interactive use
 * Includes automated tests using Pytest
 
@@ -17,7 +18,7 @@ This tool compares two FBS teams' season stats using data from the [CollegeFootb
 1. You input two FBS teams and a season year.
 2. The app fetches season-long team stats from the API.
 3. It calculates predicted scores using total yards gained and allowed.
-4. A bar graph of offensive and defensive PPG is displayed using Plotly.
+4. Bar charts visualize stat comparisons and predicted scores with win probabilities using Plotly.
 
 ---
 

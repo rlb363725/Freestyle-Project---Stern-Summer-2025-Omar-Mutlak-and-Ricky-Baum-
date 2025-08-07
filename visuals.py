@@ -36,6 +36,26 @@ def plot_team_comparison(team1, team2, stats1, stats2):
 
     fig.show()
 
+
+def plot_game_prediction(team1, team2, score1, score2, prob1, prob2):
+    """Visualize predicted scores and win probabilities for a matchup."""
+    fig = go.Figure()
+    fig.add_trace(
+        go.Bar(
+            x=[team1, team2],
+            y=[score1, score2],
+            text=[f"{prob1}% win", f"{prob2}% win"],
+            textposition="auto",
+            name="Predicted Score",
+        )
+    )
+    fig.update_layout(
+        title=f"{team1} vs {team2} - Score Prediction",
+        xaxis_title="Team",
+        yaxis_title="Predicted Score",
+    )
+    fig.show()
+
 def plot_player_comparison(player_stats, stat_type="passingYards", top_n=5):
     filtered_players = [p for p in player_stats if p.get("statType") == stat_type]
     print(f"Found {len(filtered_players)} players with stat type: {stat_type}")

@@ -40,6 +40,7 @@ def test_simulate_matchup_with_rosters(monkeypatch):
     monkeypatch.setattr("matchup.get_team_roster", mock_get_team_roster)
     monkeypatch.setattr("matchup.plot_team_comparison", lambda *args, **kwargs: None)
     monkeypatch.setattr("matchup.plot_team_roster", mock_plot_team_roster)
+    monkeypatch.setattr("matchup.plot_game_prediction", lambda *args, **kwargs: None)
 
     result = simulate_matchup("Team A", "Team B", 2023)
     assert "Winner" in result
