@@ -1,31 +1,24 @@
 import os
-from dotenv import load_dotenv
 import requests
 
-load_dotenv()  # Load environment variables from .env
+API_KEY = os.getenv("CFB_API_KEY")
+HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
-def get_api_key():
-    api_key = os.getenv("CFB_API_KEY")
-    if not api_key:
-        print("⚠️  API key not found in .env file.")
-        print("You can get a free API key from https://collegefootballdata.com/key")
-        api_key = input("Please enter your CollegeFootballData API key: ").strip()
-    return api_key
+
+def get_roster(team, year):
+    url = f"https://api.collegefootballdata.com/roster?team={team}&year={year}"
+    return requests.get(url, headers=HEADERS).json()
+
 
 def get_team_stats(team, year):
-    api_key = get_api_key()
+    url = f"https://api.collegefootballdata.com/stats/season?team={team}&year={year}"
+    return requests.get(url, headers=HEADERS).json()
 
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "accept": "application/json"
-    }
-    url = f"https://api.collegefootballdata.com/stats/season?year={year}&team={team}"
-    response = requests.get(url, headers=headers)
 
-    if response.status_code != 200:
-        raise Exception(f"Failed to fetch stats for {team}: {response.status_code} — {response.text}")
+def get_player_stats(year, category="passing"):
+    url = f"https://api.collegefootballdata.com/stats/player/season?year={year}&category={category}"
+    return requests.get(url, headers=HEADERS).json()
 
-    return response.json()
 
 
 

@@ -1,22 +1,27 @@
-from matchup import simulate_matchup
+from data_fetcher import get_team_stats, get_roster, get_player_stats
+from visuals import plot_team_comparison, plot_win_probability, plot_top_players
 
-def main():
-    print("College Football Matchup Analyzer")
-    print("------------------------------------")
+year = 2024
+team1 = "Florida"
+team2 = "Alabama"
 
-    team1 = input("Enter the first team (e.g., Ohio State): ")
-    team2 = input("Enter the second team (e.g., Michigan): ")
-    year = input("Enter the season year (e.g., 2023): ")
+# Get team stats
+stats1 = get_team_stats(team1, year)
+stats2 = get_team_stats(team2, year)
 
-    try:
-        result = simulate_matchup(team1, team2, year)
-        print("\nSimulation complete!")
-    except Exception as e:
-        print(f"\n Error: {e}")
+# Plot stats
+plot_team_comparison(team1, team2, stats1, stats2)
+plot_win_probability(team1, team2, stats1, stats2)
 
-if __name__ == "__main__":
-    main()
+# Get top player data by category
+passing_stats = get_player_stats(year, category="passing")
+rushing_stats = get_player_stats(year, category="rushing")
+receiving_stats = get_player_stats(year, category="receiving")
 
+# Plot top players
+plot_top_players("Top 5 Passers", passing_stats, "Passing Yards")
+plot_top_players("Top 5 Rushers", rushing_stats, "Rushing Yards")
+plot_top_players("Top 5 Receivers", receiving_stats, "Receiving Yards")
 
 
 
