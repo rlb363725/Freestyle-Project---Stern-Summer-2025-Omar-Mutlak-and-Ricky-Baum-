@@ -36,26 +36,27 @@ def plot_team_comparison(team1, team2, stats1, stats2):
 
     fig.show()
 
+import plotly.graph_objects as go
 
 def plot_game_prediction(team1, team2, score1, score2, prob1, prob2):
-    """Visualize predicted scores and win probabilities for a matchup."""
-    fig = go.Figure()
-    fig.add_trace(
-        go.Bar(
-            x=[team1, team2],
-            y=[score1, score2],
-            text=[f"{prob1}% win", f"{prob2}% win"],
-            textposition="auto",
-            name="Predicted Score",
-        )
+    """Visualize predicted win probabilities as a circle chart."""
+    fig = go.Figure(
+        data=[
+            go.Pie(
+                labels=[team1, team2],
+                values=[prob1, prob2],
+                hole=0.4,  # 0 for full pie, >0 for donut
+                textinfo="label+percent",
+                hovertemplate="%{label}: %{value}% win<extra></extra>"
+            )
+        ]
     )
-    fig.update_layout(
-        title=f"{team1} vs {team2} - Score Prediction",
-        xaxis_title="Team",
-        yaxis_title="Predicted Score",
-    )
-    fig.show()
 
+    fig.update_layout(
+        title=f"{team1} vs {team2} - Win Probability",
+    )
+    
+    fig.show()
 
 def plot_predicted_yardage(team1, team2, off1, def1, off2, def2):
     """Visualize predicted offensive yards and defensive yards allowed."""
